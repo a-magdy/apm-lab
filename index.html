@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APM Lab</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<style>
+  :root {
+    --bg: #f7f8fa; --panel: #ffffff; --text: #1b1f27; --muted: #637083; --line: #e2e6ec;
+    --accent: #5b4bdb; --accent-soft: #ece9fd; --ok: #1a9d5b; --code: #11151c; --callout: #fff7e0; --callout-line: #f0c34a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1117; --panel: #151a23; --text: #e6e9ef; --muted: #8b97a8; --line: #252d3a;
+      --accent: #8b7dff; --accent-soft: #221f4a; --ok: #3ddc97; --code: #0a0d12; --callout: #2b2410; --callout-line: #8a6d1a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+  nav { position: sticky; top: 0; height: 100vh; overflow: auto; background: var(--panel); border-right: 1px solid var(--line); padding: 20px 16px; }
+  nav h1 { font-size: 18px; margin: 0 0 4px; }
+  nav .sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; margin: 8px 0 18px; }
+  .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--ok)); transition: width .4s; }
+  nav a { display: flex; gap: 10px; align-items: center; padding: 9px 10px; border-radius: 10px; color: var(--text); text-decoration: none; font-size: 14px; }
+  nav a:hover { background: var(--accent-soft); }
+  nav a.active { background: var(--accent-soft); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); }
+  nav a .dot { width: 22px; height: 22px; flex: none; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-size: 12px; color: #fff; }
+  nav a.done .dot { background: var(--ok); border-color: var(--ok); }
+  nav a .min { margin-left: auto; color: var(--muted); font-size: 12px; }
+  nav .sep { height: 1px; background: var(--line); margin: 12px 0; }
+  main { padding: 36px clamp(16px, 5vw, 64px) 80px; max-width: 920px; width: 100%; }
+  article h1 { font-size: 32px; line-height: 1.2; margin-top: 0; }
+  article h2 { margin-top: 2em; padding-top: .4em; border-top: 1px solid var(--line); }
+  article a { color: var(--accent); }
+  article blockquote { margin: 1em 0; padding: 8px 16px; background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 6px; color: var(--text); }
+  article blockquote.warn { background: var(--callout); border-left-color: var(--callout-line); }
+  article blockquote p { margin: .3em 0; }
+  article table { border-collapse: collapse; width: 100%; font-size: 14.5px; display: block; overflow-x: auto; }
+  article th, article td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+  article th { background: var(--accent-soft); }
+  article code { background: var(--accent-soft); padding: 1px 6px; border-radius: 5px; font-size: .9em; }
+  article pre { position: relative; background: var(--code); border-radius: 12px; padding: 16px; overflow: auto; border: 1px solid var(--line); }
+  article pre code { background: none; padding: 0; color: #e6edf3; font-size: 13.5px; }
+  .copy { position: absolute; top: 8px; right: 8px; border: 1px solid #3a4352; background: #1b212c; color: #cbd5e1; border-radius: 8px; padding: 3px 10px; font-size: 12px; cursor: pointer; }
+  .copy:hover { background: var(--accent); color: #fff; }
+  details { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; margin: 1em 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  .done-bar { display: flex; gap: 12px; align-items: center; margin-top: 40px; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+  button.primary { background: var(--accent); color: #fff; border: 0; border-radius: 10px; padding: 9px 16px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  button.ghost { background: none; color: var(--muted); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer; }
+  .confetti { position: fixed; inset: 0; pointer-events: none; }
+  nav .toggle { display: none; width: 100%; margin: 8px 0 0; padding: 8px; border: 1px solid var(--line); border-radius: 10px; background: none; color: var(--text); font-size: 14px; cursor: pointer; }
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); padding: 12px 16px; }
+    nav .toggle { display: block; }
+    nav #links { display: none; }
+    nav.open #links { display: block; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav>
+    <h1>APM Lab</h1>
+    <div class="sub">Share agent setups across teams</div>
+    <div id="pct" class="sub">0 of 5 parts done</div>
+    <div class="bar"><i id="fill"></i></div>
+    <button class="toggle" id="toggle" aria-expanded="false" aria-controls="links">☰ Lessons</button>
+    <div id="links"></div>
+  </nav>
+  <main><article id="doc">Loading…</article><div id="footer"></div></main>
+</div>
+<canvas class="confetti" id="confetti"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+// Tildes are used for "about" (~90 min) and ~/paths; never treat them as strikethrough.
+marked.use({ tokenizer: { del() { return undefined; } } });
+const PAGES = [
+  { id: "overview", title: "Overview", file: "README.md", track: false },
+  { id: "p1", title: "1. Setup and consume", file: "labs/01-setup-and-consume.md", min: 20, track: true },
+  { id: "p2", title: "2. Author a shared set", file: "labs/02-author.md", min: 25, track: true },
+  { id: "p3", title: "3. Publish and share", file: "labs/03-publish-and-share.md", min: 20, track: true },
+  { id: "p4", title: "4. Verify and secure", file: "labs/04-verify-and-secure.md", min: 15, track: true },
+  { id: "p5", title: "5. Wrap-up and stretch", file: "labs/05-wrap-up-and-stretch.md", min: 10, track: true },
+  { id: "appendix", title: "Appendix", file: "labs/appendix.md", track: false },
+];
+const KEY = "apm-lab-progress";
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+const save = (s) => { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {} };
+const byId = (id) => PAGES.find((p) => p.id === id) || PAGES[0];
+const byFile = (f) => PAGES.find((p) => p.file === f);
+
+function renderNav(activeId) {
+  const state = load();
+  const tracked = PAGES.filter((p) => p.track);
+  const done = tracked.filter((p) => state[p.id]).length;
+  document.getElementById("pct").textContent = `${done} of ${tracked.length} parts done`;
+  document.getElementById("fill").style.width = `${(done / tracked.length) * 100}%`;
+  document.getElementById("links").innerHTML = PAGES.map((p) => {
+    const cls = [p.id === activeId ? "active" : "", state[p.id] ? "done" : ""].join(" ");
+    const dot = p.track ? `<span class="dot">${state[p.id] ? "✓" : ""}</span>` : "";
+    return `${p.id === "appendix" ? '<div class="sep"></div>' : ""}<a class="${cls}" href="#${p.id}"${p.id === activeId ? ' aria-current="page"' : ""}>${dot}${p.title}${p.min ? `<span class="min">${p.min}m</span>` : ""}</a>`;
+  }).join("");
+}
+
+function enhance(page, root) {
+  root.querySelectorAll("pre").forEach((pre) => {
+    const code = pre.querySelector("code");
+    if (code) hljs.highlightElement(code);
+    const b = document.createElement("button");
+    b.className = "copy"; b.textContent = "Copy";
+    b.onclick = async () => {
+      try { await navigator.clipboard.writeText(code.innerText); b.textContent = "Copied"; } catch { b.textContent = "Press Ctrl+C"; }
+      setTimeout(() => (b.textContent = "Copy"), 1400);
+    };
+    pre.appendChild(b);
+  });
+  root.querySelectorAll("blockquote").forEach((q) => {
+    if (/^\s*(⚠️|Watch out|\*\*Destructive)/.test(q.textContent)) q.classList.add("warn");
+  });
+  // Turn relative .md links into in-page navigation.
+  root.querySelectorAll("a[href]").forEach((a) => {
+    const href = a.getAttribute("href");
+    if (/^(https?:|mailto:|#)/.test(href)) { if (/^https?:/.test(href)) a.target = "_blank"; return; }
+    const base = page.file.includes("/") ? page.file.replace(/[^/]*$/, "") : "";
+    const parts = (base + href.split("#")[0]).split("/"), out = [];
+    parts.forEach((s) => (s === ".." ? out.pop() : s !== "." && out.push(s)));
+    const target = byFile(out.join("/"));
+    if (target) a.setAttribute("href", "#" + target.id);
+  });
+}
+
+function footer(page) {
+  const f = document.getElementById("footer");
+  if (!page.track) { f.innerHTML = ""; return; }
+  const i = PAGES.indexOf(page), next = PAGES[i + 1];
+  const done = !!load()[page.id];
+  f.innerHTML = `<div class="done-bar">
+    <button class="${done ? "ghost" : "primary"}" id="mark">${done ? "Undo: mark not done" : "✓ Mark this part done"}</button>
+    ${next ? `<a href="#${next.id}">Next: ${next.title} →</a>` : ""}</div>`;
+  document.getElementById("mark").onclick = () => {
+    const s = load(); s[page.id] = !s[page.id]; save(s);
+    if (s[page.id]) { burst(); }
+    renderNav(page.id); footer(page);
+  };
+}
+
+function burst() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c = document.getElementById("confetti"), x = c.getContext("2d");
+  c.width = innerWidth; c.height = innerHeight;
+  const colors = ["#5b4bdb", "#3ddc97", "#f0c34a", "#ff6b81", "#4ab8ff"];
+  const ps = Array.from({ length: 90 }, () => ({ x: innerWidth / 2, y: innerHeight * 0.7, vx: (Math.random() - 0.5) * 14, vy: -Math.random() * 14 - 4, r: Math.random() * 5 + 3, c: colors[(Math.random() * colors.length) | 0] }));
+  let t = 0;
+  (function tick() {
+    x.clearRect(0, 0, c.width, c.height);
+    ps.forEach((p) => { p.vy += 0.4; p.x += p.vx; p.y += p.vy; x.fillStyle = p.c; x.fillRect(p.x, p.y, p.r, p.r * 1.6); });
+    if (++t < 90) requestAnimationFrame(tick); else x.clearRect(0, 0, c.width, c.height);
+  })();
+}
+
+async function route() {
+  const page = byId(location.hash.slice(1) || "overview");
+  renderNav(page.id);
+  const doc = document.getElementById("doc");
+  try {
+    const res = await fetch(page.file);
+    if (!res.ok) throw new Error(res.status);
+    doc.innerHTML = marked.parse(await res.text());
+    enhance(page, doc); footer(page);
+    document.title = `${page.title} · APM Lab`;
+    scrollTo(0, 0);
+  } catch (e) {
+    doc.innerHTML = `<h1>Could not load ${page.file}</h1><p>Serve this folder over HTTP: <code>python3 -m http.server 8000</code>, then open <code>http://localhost:8000</code>.</p>`;
+  }
+}
+document.getElementById("toggle").onclick = (e) => {
+  const nav = e.target.closest("nav"), open = nav.classList.toggle("open");
+  e.target.setAttribute("aria-expanded", open);
+};
+addEventListener("hashchange", () => { document.querySelector("nav").classList.remove("open"); document.getElementById("toggle").setAttribute("aria-expanded", "false"); route(); });
+route();
+</script>
+</body>
+</html>
