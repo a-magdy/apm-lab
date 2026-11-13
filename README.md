@@ -63,6 +63,41 @@ This lab **publishes a GitHub repository** (`team-skills`) under your account an
 └─────────────────────────────┘
 ```
 
+### The full picture
+
+This is APM in everyday use: write once, publish a tag, and many repos consume it, with CI as the gate. You build the author box, the GitHub tag and one consumer (marked below).
+
+```text
+┌─────────────────────────────┐
+│ AUTHOR     team-skills      │   Part 2: you write it once
+│   apm.yml                   │
+│   .apm/skills/              │
+│   .apm/agents/              │
+│   .apm/instructions/        │
+└──────────────┬──────────────┘
+               │ git push, git tag v1.0.0       Part 3
+               ▼
+┌─────────────────────────────┐
+│ GITHUB   <you>/team-skills  │   the shared source: v1.0.0, v1.1.0, ...
+└──────┬───────────────┬──────┘   (optional: a marketplace repo indexes it
+       │               │           by name, Stretch B)
+       │ apm install <you>/team-skills#v1.0.0
+       ▼               ▼
+┌──────────────┐ ┌──────────────┐
+│ repo A       │ │ repo B       │ ...  any number of repos
+│ (Copilot)    │ │ (Claude Code)│      you build one: consumer-test
+│ .github/     │ │ .claude/     │
+│ .agents/     │ │              │      each one keeps its own
+│ apm.lock.yaml│ │ apm.lock.yaml│      lockfile: exact commit + hashes
+└──────┬───────┘ └──────┬───────┘
+       └───────┬────────┘
+               ▼ on every pull request          Part 4
+┌─────────────────────────────┐
+│ CI    apm audit --ci        │   catches hand-edits and hidden characters
+│       apm install --frozen  │   then restores exactly what the lockfile says
+└─────────────────────────────┘
+```
+
 ## Get the lab and make a working folder
 
 Keep the lab repo and your own work separate, so your projects never nest inside it.
