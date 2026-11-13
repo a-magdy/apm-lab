@@ -65,7 +65,19 @@ This lab **publishes a GitHub repository** (`team-skills`) under your account an
 
 ### The full picture
 
-This is APM in everyday use: write once, publish a tag, and many repos consume it, with CI as the gate. You build the author box, the GitHub tag and one consumer (marked below).
+This is APM in everyday use: write once, publish a tag, and many repos consume it, with CI as the gate. Each folder in the picture is a real one you create in this lab, and it lists the files it holds.
+
+![Three steps. 1: the team-skills folder, the producer, holds apm.yml and a .apm folder with a skill, an agent and an instruction. 2: it is pushed and tagged v1.0.0 on GitHub. 3: the consumer-test folder installs it with apm install and holds apm.yml, apm.lock.yaml and the deployed .github and .agents folders. CI runs apm audit --ci.](docs/images/apm-full-picture.jpg)
+
+<details>
+<summary>Detailed version: what each repo commits, and the CI order</summary>
+
+![Diagram of the lab repos. team-skills (producer) holds apm.yml and a .apm folder with a skill, an agent and an instruction. It is pushed to GitHub and tagged v1.0.0. consumer-test installs it with apm install and holds apm.yml, apm.lock.yaml and the deployed .github and .agents folders. CI runs apm audit --ci, then apm install --frozen.](docs/images/apm-repos.svg)
+
+</details>
+
+<details>
+<summary>Text version of the same diagram</summary>
 
 ```text
 ┌─────────────────────────────┐
@@ -97,6 +109,8 @@ This is APM in everyday use: write once, publish a tag, and many repos consume i
 │       apm install --frozen  │   then restores exactly what the lockfile says
 └─────────────────────────────┘
 ```
+
+</details>
 
 ## Get the lab and make a working folder
 

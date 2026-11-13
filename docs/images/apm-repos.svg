@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1098" role="img" aria-labelledby="t d">
+<title id="t">APM lab: three repos and what each holds</title>
+<desc id="d">team-skills is the producer repo holding apm.yml and a .apm folder with a skill, an agent and an instruction. It is pushed to GitHub and tagged v1.0.0. consumer-test installs it with apm install, and holds apm.yml, apm.lock.yaml and the deployed .github and .agents folders. CI runs apm audit --ci then apm install --frozen.</desc>
+<style>
+text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;fill:#1f2937}
+.h{font-size:30px;font-weight:700} .sub{font-size:17px;fill:#4b5563} .note{font-size:17px;fill:#374151}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:17.5px;fill:#111827}
+.pill{font-size:17px;font-weight:700;fill:#111827} .lab{font-size:18px;font-weight:600;fill:#1e3a5f}
+.ghT{font-size:22px;font-weight:700;fill:#0b3b3c} .ciT{font-size:21px;font-weight:700;fill:#14351f}
+.bg{fill:#ffffff} .prod{fill:#fff3e8;stroke:#e8913a;stroke-width:3} .cons{fill:#e8f3fb;stroke:#3b82b6;stroke-width:3}
+.pillp{fill:#fbd5ae} .pillc{fill:#bcdcf2} .gh{fill:#cdeeee;stroke:#2a8c8c;stroke-width:3}
+.ci{fill:#e6f4ea;stroke:#3d8b57;stroke-width:3} .div{stroke:#c9ced6;stroke-width:1.5}
+.ar{stroke:#4b6a91;stroke-width:4} .ah{fill:#4b6a91}
+</style>
+<rect class="bg" width="1000" height="1098"/>
+<rect x="20" y="20" width="960" height="300" rx="18" class="prod"/>
+<text x="46" y="64" class="h" text-anchor="start">team-skills</text>
+<rect x="250" y="38" width="430" height="36" rx="18" class="pillp"/>
+<text x="465" y="63" class="pill" text-anchor="middle">PRODUCER · you write it · Parts 2 and 3</text>
+<text x="46" y="98" class="sub" text-anchor="start">folder: ~/apm-work/team-skills   (also pushed to GitHub)</text>
+<text x="46" y="140" class="mono" text-anchor="start">apm.yml</text>
+<text x="630" y="140" class="note" text-anchor="start">manifest: package name and version</text>
+<text x="46" y="174" class="mono" text-anchor="start">.apm/skills/pr-description/SKILL.md</text>
+<text x="630" y="174" class="note" text-anchor="start">skill: the model reaches for it</text>
+<text x="46" y="208" class="mono" text-anchor="start">.apm/agents/team-reviewer.agent.md</text>
+<text x="630" y="208" class="note" text-anchor="start">agent: you select it in chat</text>
+<text x="46" y="242" class="mono" text-anchor="start">.apm/instructions/pr-conventions.instructions.md</text>
+<text x="630" y="242" class="note" text-anchor="start">instruction: applies by file pattern</text>
+<line x1="46" y1="260" x2="954" y2="260" class="div"/>
+<text x="46" y="292" class="sub" text-anchor="start">Committed: apm.yml, .apm/, .gitignore.  NOT published: .github/ and .agents/ (regenerated copies)</text>
+<line x1="500" y1="320" x2="500" y2="382" class="ar"/><path d="M491 378 L500 392 L509 378 Z" class="ah"/>
+<text x="520" y="362" class="lab" text-anchor="start">git push, then git tag v1.0.0   (Part 3)</text>
+<rect x="190" y="392" width="620" height="64" rx="32" class="gh"/>
+<text x="500" y="432" class="ghT" text-anchor="middle">GitHub:  &lt;you&gt;/team-skills   ·   tag v1.0.0</text>
+<line x1="500" y1="456" x2="500" y2="518" class="ar"/><path d="M491 514 L500 528 L509 514 Z" class="ah"/>
+<text x="520" y="498" class="lab" text-anchor="start">apm install &lt;you&gt;/team-skills#v1.0.0 --target copilot</text>
+<rect x="20" y="528" width="960" height="372" rx="18" class="cons"/>
+<text x="46" y="572" class="h" text-anchor="start">consumer-test</text>
+<rect x="262" y="546" width="470" height="36" rx="18" class="pillc"/>
+<text x="497" y="571" class="pill" text-anchor="middle">CONSUMER · a second repo · Parts 3 and 4</text>
+<text x="46" y="606" class="sub" text-anchor="start">folder: ~/apm-work/consumer-test   (has none of your source files)</text>
+<text x="46" y="648" class="mono" text-anchor="start">apm.yml</text>
+<text x="640" y="648" class="note" text-anchor="start">records: &lt;you&gt;/team-skills#v1.0.0</text>
+<text x="46" y="682" class="mono" text-anchor="start">apm.lock.yaml</text>
+<text x="640" y="682" class="note" text-anchor="start">exact commit + SHA-256 of every file</text>
+<text x="46" y="716" class="mono" text-anchor="start">.github/agents/team-reviewer.agent.md</text>
+<text x="640" y="716" class="note" text-anchor="start">deployed for Copilot</text>
+<text x="46" y="750" class="mono" text-anchor="start">.github/instructions/pr-conventions.instructions.md</text>
+<text x="640" y="750" class="note" text-anchor="start">deployed for Copilot</text>
+<text x="46" y="784" class="mono" text-anchor="start">.agents/skills/pr-description/SKILL.md</text>
+<text x="640" y="784" class="note" text-anchor="start">deployed for Copilot</text>
+<text x="46" y="818" class="mono" text-anchor="start">apm_modules/</text>
+<text x="640" y="818" class="note" text-anchor="start">download cache, gitignored, rebuildable</text>
+<line x1="46" y1="858" x2="954" y2="858" class="div"/>
+<text x="46" y="886" class="sub" text-anchor="start">Committed: everything except apm_modules/, so teammates get the context on clone</text>
+<line x1="500" y1="900" x2="500" y2="952" class="ar"/><path d="M491 948 L500 962 L509 948 Z" class="ah"/>
+<rect x="20" y="962" width="960" height="84" rx="18" class="ci"/>
+<text x="46" y="1000" class="ciT" text-anchor="start">CI on every pull request:  1. apm audit --ci    2. apm install --frozen</text>
+<text x="46" y="1030" class="sub" text-anchor="start">catches hand-edits and hidden characters, then restores exactly what the lockfile says  (Part 4)</text>
+<text x="46" y="1078" class="sub" text-anchor="start">Part 1 uses a throwaway repo, hack-lab, to practise installing someone else's package: microsoft/apm-sample-package.</text>
+</svg>
