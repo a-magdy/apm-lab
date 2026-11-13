@@ -1,0 +1,40 @@
+name: smoke
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * *" # daily
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # pinned: the version the guides were verified against.
+        # latest: early warning when a new APM release changes behaviour.
+        apm: ["apm-cli==0.35.1", "apm-cli"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "${{ matrix.apm }}"
+      - run: apm --version
+      - name: Parts 2 and 4, offline
+        run: |
+          git config --global user.name ci
+          git config --global user.email ci@example.com
+          bash scripts/smoke.sh
+      - name: Part 1.2, install from GitHub
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          mkdir "$RUNNER_TEMP/hack-lab" && cd "$RUNNER_TEMP/hack-lab"
+          git init -q && apm init -y
+          apm install microsoft/apm-sample-package#v1.0.0 --target copilot
+          "$GITHUB_WORKSPACE/scripts/check.sh" consume

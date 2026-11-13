@@ -60,7 +60,7 @@ apm audit --ci
 
 The edited file is restored and the audit is clean.
 
-> Edited a **skill** file instead of the agent? APM keeps hand-edited skill files and prints `Kept user-edited file ... --force`. Restore it with `apm install --target copilot --force`.
+> Edited a **skill** file instead of the agent? APM leaves hand-edited skill files alone and prints a warning (`Skipped removing ... file has been edited since APM deployed it`). Restore it with `apm install --target copilot --force`.
 
 ## 4.6 Hidden characters
 

@@ -61,13 +61,23 @@ The Copilot Academy lab [APM in 60 Minutes](https://copilot-academy.github.io/la
 
 ## Stretch C: declare an MCP server
 
-Add an MCP server to `dependencies.mcp` in `apm.yml`, run `apm install --target copilot`, then `git status` to see which file changed for Copilot. APM blocks transitive MCP servers unless they are declared, which is why it is listed explicitly.
+In `consumer-test`, add an MCP server to `dependencies.mcp` in `apm.yml`, replacing the empty `mcp: []` that `apm init` wrote. This one needs no API key:
+
+```yaml
+dependencies:
+  mcp:
+    - io.github.ChromeDevTools/chrome-devtools-mcp
+```
+
+Keep the existing `apm:` list as it is. Run `apm install --target copilot`, then `git status` to see which file APM wrote for Copilot. APM blocks transitive MCP servers unless they are declared, which is why it is listed explicitly.
+
+Find other servers with `apm mcp search <word>`. Many ask for a token or API key during install; do not paste a real secret into a lab repo.
 
 ## Challenges
 
 1. **Break it on purpose.** Put the skill at the repo root instead of under `.apm/`, push, and reinstall in the consumer. What is missing, and did anything warn you?
 2. **Two consumers, one source.** Install the same tag in a third repo with `--target claude`. What differs?
-3. **Gate a pull request.** Write a GitHub Actions job that runs `apm install --frozen` and `apm audit --ci`.
+3. **Gate a pull request.** Write a GitHub Actions job that runs `apm audit --ci`, then `apm install --frozen`, in that order (see the warning above).
 
 ## Further reading
 
