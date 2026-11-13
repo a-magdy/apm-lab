@@ -22,7 +22,7 @@ Commit the manifest and the `.apm/` source only, never `git add .`. In a package
 cd ~/apm-work/team-skills
 git rm --cached -q add.js 2>/dev/null || true   # unstage the demo file from Part 2.7
 git add apm.yml .apm/ .gitignore
-git status --short                              # only apm.yml, .apm/ files and .gitignore should show "A"
+git status --short                              # staged ("A"): apm.yml, .apm/ files, .gitignore. "?? add.js" is fine: untracked, not committed
 git commit -m "feat: initial team-skills package"
 git remote add origin https://github.com/<your-handle>/team-skills.git
 git push -u origin main
