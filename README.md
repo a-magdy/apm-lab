@@ -63,6 +63,55 @@ This lab **publishes a GitHub repository** (`team-skills`) under your account an
 └─────────────────────────────┘
 ```
 
+### The full picture
+
+This is APM in everyday use: write once, publish a tag, and many repos consume it, with CI as the gate. Each folder in the picture is a real one you create in this lab, and it lists the files it holds.
+
+![Three steps. 1: the team-skills folder, the producer, holds apm.yml and a .apm folder with a skill, an agent and an instruction. 2: it is pushed and tagged v1.0.0 on GitHub. 3: the consumer-test folder installs it with apm install and holds apm.yml, apm.lock.yaml and the deployed .github and .agents folders. CI runs apm audit --ci.](docs/images/apm-full-picture.jpg)
+
+<details>
+<summary>Detailed version: what each repo commits, and the CI order</summary>
+
+![Diagram of the lab repos. team-skills (producer) holds apm.yml and a .apm folder with a skill, an agent and an instruction. It is pushed to GitHub and tagged v1.0.0. consumer-test installs it with apm install and holds apm.yml, apm.lock.yaml and the deployed .github and .agents folders. CI runs apm audit --ci, then apm install --frozen.](docs/images/apm-repos.svg)
+
+</details>
+
+<details>
+<summary>Text version of the same diagram</summary>
+
+```text
+┌─────────────────────────────┐
+│ AUTHOR     team-skills      │   Part 2: you write it once
+│   apm.yml                   │
+│   .apm/skills/              │
+│   .apm/agents/              │
+│   .apm/instructions/        │
+└──────────────┬──────────────┘
+               │ git push, git tag v1.0.0       Part 3
+               ▼
+┌─────────────────────────────┐
+│ GITHUB   <you>/team-skills  │   the shared source: v1.0.0, v1.1.0, ...
+└──────┬───────────────┬──────┘   (optional: a marketplace repo indexes it
+       │               │           by name, Stretch B)
+       │ apm install <you>/team-skills#v1.0.0
+       ▼               ▼
+┌──────────────┐ ┌──────────────┐
+│ repo A       │ │ repo B       │ ...  any number of repos
+│ (Copilot)    │ │ (Claude Code)│      you build one: consumer-test
+│ .github/     │ │ .claude/     │
+│ .agents/     │ │              │      each one keeps its own
+│ apm.lock.yaml│ │ apm.lock.yaml│      lockfile: exact commit + hashes
+└──────┬───────┘ └──────┬───────┘
+       └───────┬────────┘
+               ▼ on every pull request          Part 4
+┌─────────────────────────────┐
+│ CI    apm audit --ci        │   catches hand-edits and hidden characters
+│       apm install --frozen  │   then restores exactly what the lockfile says
+└─────────────────────────────┘
+```
+
+</details>
+
 ## Get the lab and make a working folder
 
 Keep the lab repo and your own work separate, so your projects never nest inside it.
