@@ -8,7 +8,7 @@
 |---------|----------------------|
 | `apm: command not found` | Open a new shell, or run the `PATH` line the installer printed |
 | `apm install` exits with code 2 | No harness detected. Add `--target copilot`, or set `targets: [copilot]` in `apm.yml`. `apm targets` shows what APM detects |
-| Package not found | Repo is private or misspelled. Make it public, or set `GITHUB_APM_PAT` |
+| Package not found | Repo is private or misspelled. Make it public, or run `gh auth login` so APM can read it with your login |
 | Skill never activates | Reword the skill `description` to match the phrases you typed, then reinstall |
 | Installed files not visible in Copilot | Open the project folder itself in VS Code, not its parent |
 | `apm audit` exits 0 despite drift | Expected. Use `apm audit --ci` for a failing exit code |

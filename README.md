@@ -25,7 +25,15 @@ This lab **publishes a GitHub repository** (`team-skills`) under your account an
 
 - A terminal and Git. **Windows: use Git Bash (or WSL) for the whole lab.** All commands are bash.
 - A git identity. If `git config user.name` and `git config user.email` already print values, you are set. Otherwise set them for this lab only, inside each project folder, with `git config user.name "Your Name"` (no `--global`). The email appears in public commits, so GitHub's no-reply address is fine
-- A GitHub account with Copilot access, and a way to push: run `gh auth login` (or use your credential manager or SSH)
+- A GitHub account with Copilot access
+- The [GitHub CLI](https://cli.github.com/), signed in. **This is required, even if you push over SSH:** APM uses this login for its GitHub lookups. Without it the lookups are anonymous, and GitHub rate-limits anonymous requests per network, which a room full of people can use up
+
+  ```bash
+  gh auth login          # required: APM uses this token for GitHub lookups
+  gh auth setup-git      # lets git push over HTTPS with the same login
+  gh auth status         # must say "Logged in to github.com"
+  ```
+
 - VS Code with GitHub Copilot Chat (the Copilot CLI works for most checks; Part 1 step 6 needs VS Code)
 - An **empty** GitHub repository named `team-skills`: tick nothing (no README, no .gitignore, no license). Public is simplest; pair mode needs it public
 - Network access to github.com
@@ -60,7 +68,7 @@ This lab **publishes a GitHub repository** (`team-skills`) under your account an
 Keep the lab repo and your own work separate, so your projects never nest inside it.
 
 ```bash
-git clone <lab-repo-url> ~/apm-lab
+git clone https://github.com/a-magdy/apm-lab ~/apm-lab
 export LAB=~/apm-lab           # re-run this in every new terminal
 mkdir -p ~/apm-work && cd ~/apm-work
 ```
@@ -87,8 +95,18 @@ Every part has a **Goal**, steps and (except the wrap-up) a **Checkpoint**. Chec
 
 Stuck? See the [appendix](labs/appendix.md) for troubleshooting and a command cheat sheet. Behind? The finished package is in [`solution/`](solution/): run `cp -R "$LAB/solution/.apm/." .apm/` inside your `team-skills` folder (after `mkdir -p .apm`).
 
+## Prefer a web view?
+
+The repo ships a small viewer (`index.html`) that renders these guides with a sidebar and progress tracking. It has to be served over HTTP, and it loads its scripts from a CDN, so it needs internet access:
+
+```bash
+cd "$LAB" && python3 -m http.server 8000   # then open http://localhost:8000
+```
+
 ## Working in pairs
 
 Work solo through Part 2. In Part 3, swap GitHub handles with a partner and install their package into a **fresh folder** (for example `consumer-partner`), because two packages with the same file names overwrite each other.
 
-> **APM moves fast.** Commands were verified against APM 0.35.0. If output differs from this guide, check the [official docs](https://microsoft.github.io/apm/).
+> **APM moves fast.** Commands were verified against APM 0.35.1. If output differs from this guide, check the [official docs](https://microsoft.github.io/apm/).
+
+Facilitators: `scripts/smoke.sh` runs Parts 2 and 4 offline against the `solution/` package, and CI runs it daily against both the pinned and the latest APM release.

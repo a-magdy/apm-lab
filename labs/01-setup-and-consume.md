@@ -24,7 +24,17 @@ curl -sSL https://aka.ms/apm-unix | sh
 irm https://aka.ms/apm-windows | iex
 ```
 
-If `apm` is not found in Git Bash afterwards, install it with Python instead, from Git Bash: `pip install --user apm-cli`.
+If `apm` is not found in Git Bash afterwards, install it with Python instead, from Git Bash:
+
+```bash
+pip install --user "apm-cli==0.35.1"
+```
+
+If `apm` is still not found, pip's user scripts folder is not on your `PATH`. Add it (and put the same line in `~/.bashrc` to keep it for new shells):
+
+```bash
+export PATH="$(cygpath -u "$(python -c 'import sysconfig; print(sysconfig.get_path("scripts", sysconfig.get_preferred_scheme("user")))')"):$PATH"
+```
 
 Open a new shell, then:
 
@@ -32,7 +42,7 @@ Open a new shell, then:
 apm --version
 ```
 
-> **Container or Codespace?** The installer can exit 0 with a broken binary. Always run `apm --version`. If it fails with a sqlite error, run `pip install --user apm-cli` instead.
+> **Container or Codespace?** The installer can exit 0 with a broken binary. Always run `apm --version`. If it fails with a sqlite error, run `pip install --user "apm-cli==0.35.1"` instead.
 
 ✅ **Checkpoint:** `apm --version` prints a version. Note it down: version mismatches explain odd output.
 
