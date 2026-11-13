@@ -157,5 +157,3 @@ cd "$LAB" && python3 -m http.server 8000   # then open http://localhost:8000
 Work solo through Part 2. In Part 3, swap GitHub handles with a partner and install their package into a **fresh folder** (for example `consumer-partner`), because two packages with the same file names overwrite each other.
 
 > **APM moves fast.** Commands were verified against APM 0.35.1. If output differs from this guide, check the [official docs](https://microsoft.github.io/apm/).
-
-Facilitators: `scripts/smoke.sh` runs Parts 2 and 4 offline against the `solution/` package, and CI runs it daily against both the pinned and the latest APM release.
