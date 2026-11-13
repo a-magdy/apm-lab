@@ -68,7 +68,7 @@ Why bother? Without a package manager, a good skill gets copied into repo after 
 
 3. Read the output. You should see prompts, an agent and an instruction going into `.github/`, and a skill into `.agents/skills/`. The package's own dependency installs in the same pass.
 
-   > **A deliberate teaching example:** you will see `1 dependency unpinned`. The sample package depends on a repo without a tag, so what you get tracks a moving branch. Keep that in mind for Part 4.
+   > **A deliberate teaching example:** you will see `[!] 1 dependency unpinned`. You installed one package, but it pulled in a second one that is not pinned to a version. Section 1.3 shows you where to find it.
 
 4. Look at what changed. How close was your guess?
 
@@ -90,7 +90,34 @@ Why bother? Without a package manager, a good skill gets copied into repo after 
 
 6. Open the folder in VS Code, start Copilot Chat, type `/`, and run one of the installed prompts against any file. (Copilot CLI does not expose prompt files as slash commands; skip this step there, but note that skills do show up as slash commands in the CLI.)
 
-## 1.3 What just happened
+## 1.3 Read the lockfile
+
+Open `apm.lock.yaml`. It has one entry per package under `dependencies:`. You asked for one package and got two, so find both:
+
+```bash
+grep -E "repo_url|resolved_ref|resolved_commit|resolved_by|depth" apm.lock.yaml
+```
+
+Compare the two entries:
+
+| Field | `microsoft/apm-sample-package` (you asked for it) | `github/awesome-copilot` (came along) |
+|-------|---------------------------------------------------|----------------------------------------|
+| `resolved_ref` | `v1.0.0`, the tag you typed | **missing** |
+| `resolved_commit` | an exact commit | an exact commit (a snapshot of today) |
+| `resolved_by` | missing: you installed it directly | `microsoft/apm-sample-package`: it was pulled in by the sample package |
+| `depth` | missing (direct) | `2` (a dependency of a dependency) |
+
+A missing `resolved_ref` is the unpinned dependency. The sample package's own `apm.yml` lists `github/awesome-copilot/skills/review-and-refactor` with no `#tag` or `#sha`, so APM followed the default branch. The lockfile records the commit it got, so *your* repeat installs stay the same. A fresh resolve, such as an install without the lockfile or after an update, can return newer content. Only the package author can fix it, by adding a ref.
+
+You can confirm the author's side:
+
+```bash
+cat apm_modules/microsoft/apm-sample-package/apm.yml
+```
+
+Part 4 comes back to this.
+
+## 1.4 What just happened
 
 Three things do all the work:
 
@@ -119,7 +146,7 @@ Package authors write one layout (`.apm/`). APM rewrites files into the folders 
 | `.apm/agents/x.agent.md` | `.github/agents/x.agent.md` |
 | `.apm/instructions/x.instructions.md` | `.github/instructions/x.instructions.md` |
 
-## 1.4 What to commit
+## 1.5 What to commit
 
 The rule differs for the two kinds of repo you will meet in this lab:
 
@@ -136,6 +163,7 @@ The rule differs for the two kinds of repo you will meet in this lab:
 - Which file records the exact commit installed?
 - Why did step 2 need `--target copilot`?
 - Why does a consumer repo commit the deployed folders as well as the manifest?
+- Which package in `apm.lock.yaml` is unpinned, and which lockfile field gives it away?
 
 <details>
 <summary>Answers</summary>
@@ -143,6 +171,7 @@ The rule differs for the two kinds of repo you will meet in this lab:
 1. `apm.lock.yaml`.
 2. APM found no harness marker to auto-detect.
 3. So teammates get the context on clone, with no APM required.
+4. `github/awesome-copilot`: it has no `resolved_ref`, and `resolved_by` shows the sample package pulled it in.
 
 </details>
 

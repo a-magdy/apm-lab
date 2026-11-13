@@ -16,7 +16,7 @@ apm pack --dry-run --verbose
 
 It lists the files it would bundle (agents, instructions, skills and a generated `plugin.json`). If a file you wrote is missing from this list, it is in the wrong folder: APM only collects from `.apm/skills/`, `.apm/agents/` and `.apm/instructions/` (and `.apm/prompts/`, `.apm/hooks/`). A license warning is normal; add `license: MIT` to `apm.yml` to silence it. `--dry-run` writes nothing.
 
-Commit the manifest and the `.apm/` source only, never `git add .`. In a package repo the deployed folders are not published; consumers regenerate them by installing (see the table in Part 1.4).
+Commit the manifest and the `.apm/` source only, never `git add .`. In a package repo the deployed folders are not published; consumers regenerate them by installing (see the table in Part 1.5).
 
 ```bash
 cd ~/apm-work/team-skills
