@@ -88,7 +88,7 @@ Agent context is code, so APM layers some protections around it (per the APM doc
 |-------|--------------|-------------|
 | Hidden-Unicode scan | Flags invisible characters that can smuggle instructions into a prompt | **Demonstrated** in 4.6 |
 | Content hashing | Lockfile pins a SHA-256 per deployed file | **Demonstrated** in 4.1 and 4.3-4.4 |
-| Pinned refs | A tag or commit instead of a moving branch | Discussion: compare `#v1.0.0` with the unpinned warning in Part 1 |
+| Pinned refs | A tag or commit instead of a moving branch | Discussion: compare `#v1.0.0` with the unpinned `github/awesome-copilot` entry you found in Part 1.3 |
 | Transitive MCP gating | MCP servers from dependencies are blocked unless you declare them | Discussion (Stretch C uses it) |
 | Policy | `apm-policy.yml` limits allowed sources, tighten-only from enterprise to org to repo | Discussion, see below |
 
